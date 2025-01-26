@@ -85,65 +85,71 @@ public class LibManagSystem {
 	public static void custLogin() { //Method starts
         
         boolean userMenu = true;
+        
+    	System.out.println("Enter your username:");
+        String custName = scan.next();
+        
         while (userMenu) {
         	
-        	System.out.println("1. Borrow Book\n2. Return Book\n3. View Borrowed Details\n4. exit");
+        	System.out.println("\n1. Borrow Book\n2. Return Book\n3. View Borrowed Details\n4. View Books\n5. exit\n");
         	
-            System.out.println("\nSelect an option:");
+            System.out.println("\nSelect an option: \n");
             int choice = scan.nextInt();
-
+            
             switch (choice) {
                 case 1:
                 	
-                	System.out.println("Enter your username:");
-                    String custName = scan.next();
-
                     System.out.println("Welcome, " + custName);
                 	
-                	System.out.println("Please enter the book name: ");           
+                	System.out.println("\nPlease enter the book name: \n");           
                 	String bname = scan.next();
                     borrowBook(custName,bname);
                     break;
                     
                 case 2:
+         
+                    System.out.println("Welcome Again, " + custName);
                 	
-                	System.out.println("Enter your username:");
-                    String custName1 = scan.next();
-
-                    System.out.println("Welcome, " + custName1);
-                	
-                    System.out.print("Enter the name of the book you return: ");          
+                    System.out.print("\nEnter the name of the book you return: \n");          
                 	String bname1 = scan.next();
-                    returnBook(custName1,bname1);
+                    returnBook(custName,bname1);
                     break;
                     
                 case 3:
-                	System.out.println("Enter your username:");
-                    String custName2 = scan.next();
-
-                    System.out.println("Welcome, " + custName2);
-
+                	
                     boolean recordFound = false;
 
                     for (int i = 0; i < custBorrowRecords.size(); i++) {
                         BorrowRecord record = custBorrowRecords.get(i);
-                        if (record.getUsername().equals(custName2)) {
+                        if (record.getUsername().equals(custName)) {
                             System.out.println(record);
                             recordFound = true;
                         }
                     }
 
                     if (!recordFound) {
-                        System.out.println("No borrowed records found for " + custName2 + ".");
+                        System.out.println("\nNo borrowed records found for " + custName + ".\n");
                     }
                     break;
                     
+                    
                 case 4:
-                    System.out.println("Exit from the menu...");
+                    System.out.println("\nAvailable Books:\n");
+                    for (Map.Entry<String, Integer> entry : bookCount.entrySet()) {
+                        String bookName = entry.getKey();
+                        int availableCopies = entry.getValue();
+                        System.out.println("Book Name: " + bookName + ", Available Copies: " + availableCopies);
+                    }
+                    break;
+
+                	
+                    
+                case 5:
+                    System.out.println("\nExit from the menu...\n");
                     userMenu = false;
                     break;
                 default:
-                    System.out.println("Invalid option. Please try again.");
+                    System.out.println("\nInvalid option. Please try again.\n");
             }
         }
 	
@@ -159,15 +165,15 @@ public class LibManagSystem {
         record.getUsername().equals(returnCustName) && record.getBookName().equals(userBookname));
 	    
 	    if(recordFound) {
-	    	System.out.println("The Name of Customer" +returnCustName+" and the Name of Book "+bookName+" is Perfectly Matched"); 
+	    	System.out.println("\nThe Name of Customer" +returnCustName+" and the Name of Book "+bookName+" is Perfectly Matched\n"); 
 	    	
 	    	bookCount.put(userBookname, bookCount.get(userBookname)+1);
 	    	
-	        System.out.println("The book " + userBookname + " has been successfully returned. Thank you!");
+	        System.out.println("\nThe book " + userBookname + " has been successfully returned. Thank you!\n");
 	    }
 	    
 	    else {
-	        System.out.println("No record found for " + returnCustName + " borrowing the book " + userBookname + ".");
+	        System.out.println("\nNo record found for " + returnCustName + " borrowing the book " + userBookname + ".\n");
 
 	    }
 	}
@@ -185,17 +191,17 @@ public class LibManagSystem {
 
 				custBorrowRecords.add(new BorrowRecord(custName, bookName, LocalDateTime.now()));
 				
-				System.out.println("The Book "+bookName+" is Borrowed Sucessfully in This Date "+LocalDateTime.now()+".");
+				System.out.println("\nThe Book "+bookName+" is Borrowed Sucessfully in This Date "+LocalDateTime.now()+".\n");
 
 			}
 			
 			else {
-				System.out.println("Sorry The Book: "+bookName+" is Currently Not Available.");
+				System.out.println("\nSorry The Book: "+bookName+" is Currently Not Available.\n");
 			}
 		}
 		
 		else {
-			System.out.println("Sorry The Given Book:"+bookName+" is Not Here.");
+			System.out.println("\nSorry The Given Book:"+bookName+" is Not Here.\n");
 		}
 	}
 }

@@ -123,10 +123,8 @@ public class LibManagSystem {
 
                     System.out.println("Welcome, " + custName2);
 
-                    // Initialize a flag to track if records are found
                     boolean recordFound = false;
 
-                    // Use a normal for loop to iterate through the records
                     for (int i = 0; i < custBorrowRecords.size(); i++) {
                         BorrowRecord record = custBorrowRecords.get(i);
                         if (record.getUsername().equals(custName2)) {
@@ -135,7 +133,6 @@ public class LibManagSystem {
                         }
                     }
 
-                    // If no records are found, display a message
                     if (!recordFound) {
                         System.out.println("No borrowed records found for " + custName2 + ".");
                     }
@@ -155,55 +152,8 @@ public class LibManagSystem {
 
 	private static void returnBook(String returnCustName,String bookName) {
 		// TODO Auto-generated method stub
-		
-		
-		int fine = 0;
-		
-		String userBookname = bookName;
-		
-		int difference = LocalDateTime.of(2025,1,27,0,0).compareTo(LocalDateTime.of(getBorrowDate()));
-		
-		boolean exists = custBorrowRecords.stream()
-	            .anyMatch(r -> r.getUsername().equals(returnCustName) && r.getBookName().equals(userBookname));
-
-	        
-		if(exists) {
-			if(difference > bookValidity.get(bookName)) {
-			fine = difference * 20;
-			
-			System.out.println("You must to pay the Fine Amount to return the book: "+fine);
-			
-			System.out.println("Pay Fine Amount: ");
-			int f = scan.nextInt();
-			
-			if(fine == f) {
-			
-				System.out.println("You Pay fine amount sucessfully.");
-				custBorrowRecords.remove(exists);
-				System.out.println("The book " + userBookname + " has been successfully returned. Thank you!");
 				
-			}   
-			
-			else {
-                System.out.println("Incorrect fine amount. Unable to return book.");
-                return;
-            }
-
-			
-		}
-		
-		else {
-			custBorrowRecords.remove(exists);
-			System.out.println("The book " + userBookname + " has been successfully returned. Thank you!");
-			   
-			
-		}
-		}else {
-			System.out.println("No record found for " + returnCustName + " borrowing the book " + userBookname + ".");
-
-		
-	}
-		/*
+		String userBookname = bookName;
 		
 	    boolean recordFound = custBorrowRecords.removeIf(record -> 
         record.getUsername().equals(returnCustName) && record.getBookName().equals(userBookname));
@@ -219,7 +169,7 @@ public class LibManagSystem {
 	    else {
 	        System.out.println("No record found for " + returnCustName + " borrowing the book " + userBookname + ".");
 
-	    }*/
+	    }
 	}
 
 	private static void borrowBook(String custName,String bookName) {
@@ -227,30 +177,16 @@ public class LibManagSystem {
 				
 		if(bookCount.containsKey(bookName)) {
 			int copiesAvailable = bookCount.get(bookName);
+			
+			
 			if(copiesAvailable > 0) {
-				
-				
-	            /*System.out.println("Enter the borrow date (dd-MM-yyyy):");
-	            String inputDate = scan.next(); 
-
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	            dateFormat.setLenient(false); */
-	            
-	            /*try {
-					Date borrowDate = dateFormat.parse(inputDate);
-					System.out.println("The Book "+bookName+" is Borrowed Sucessfully in This Date "+inputDate+".");
-							} 
-	            catch (ParseException e) {
-					// TODO Auto-generated catch block
-					
-	                System.out.println("Invalid date format. Please enter the date in dd-MM-yyyy format.");
-				}*/
-	            
+					            
 				bookCount.put(bookName, copiesAvailable - 1);
 
 				custBorrowRecords.add(new BorrowRecord(custName, bookName, LocalDateTime.now()));
 				
-				
+				System.out.println("The Book "+bookName+" is Borrowed Sucessfully in This Date "+LocalDateTime.now()+".");
+
 			}
 			
 			else {
